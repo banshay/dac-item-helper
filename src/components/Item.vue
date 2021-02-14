@@ -6,10 +6,7 @@
       'border-2': selected,
     }"
   >
-    <img
-      :src="require(`@/assets/icons/${iconName}_icon.png`)"
-      :alt="item.name"
-    />
+    <img :src="itemImage(item.name)" :alt="item.name" />
     <div class="w-screen flex justify-between">
       <div class="p-4">
         <p class="text-2xl font-black">
@@ -19,9 +16,9 @@
       </div>
       <div class="flex flex-row justify-around items-center pr-4">
         <img
-          :key="sourceIcon.name"
+          :key="sourceIcon"
           v-for="sourceIcon in sourceIcons"
-          :src="require(`@/assets/icons/${sourceIcon}_icon.png`)"
+          :src="itemImage(sourceIcon)"
           :alt="sourceIcon"
           class="w-14 h-14 p-1"
         />
@@ -53,10 +50,27 @@ export default defineComponent({
 
     const iconName = props.item.name.replaceAll('-', '_')
     const displayName = titleCase(props.item.name.replaceAll('-', ' '))
-    const sourceIcons = itemSourceIcons(props.item)
+    const sourceIcons = itemSourceIcons(props.item) || []
     const amountSelected = computed(() => getAmount(props.item.name))
 
-    return { props, iconName, displayName, sourceIcons, amountSelected }
+    console.log(sourceIcons)
+
+    const itemImage = (name: string) => {
+      if (name) {
+        const fileName = name.replaceAll('-', '_')
+        return require(`../assets/icons/${fileName}_icon.png`)
+      }
+      return ''
+    }
+
+    return {
+      props,
+      iconName,
+      displayName,
+      sourceIcons,
+      amountSelected,
+      itemImage,
+    }
   },
 })
 </script>
