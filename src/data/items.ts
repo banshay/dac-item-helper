@@ -11,39 +11,39 @@ export interface Source {
 
 export const items: Item[] = [
   {
-    name: 'blades-of-attack',
+    name: 'Blades_of_Attack',
     tier: 1,
   },
   {
-    name: 'mithril-hammer',
+    name: 'Mithril_Hammer',
     tier: 2,
-    sources: [{ name: 'blades-of-attack', amount: 2 }],
+    sources: [{ name: 'Blades_of_Attack', amount: 2 }],
   },
   {
-    name: 'sacred-relic',
+    name: 'Sacred_Relic',
     tier: 3,
-    sources: [{ name: 'mithril-hammer', amount: 3 }],
+    sources: [{ name: 'Mithril_Hammer', amount: 3 }],
   },
   {
-    name: 'divine-rapier',
+    name: 'Divine_Rapier',
     tier: 5,
     sources: [
-      { name: 'sacred-relic', amount: 1 },
-      { name: 'demon-edge', amount: 1 },
+      { name: 'Sacred_Relic', amount: 1 },
+      { name: 'Demon_Edge', amount: 1 },
     ],
   },
   {
-    name: 'demon-edge',
+    name: 'Demon_Edge',
     tier: 3,
-    sources: [{ name: 'javelin', amount: 2 }],
+    sources: [{ name: 'Javelin', amount: 2 }],
   },
   {
-    name: 'javelin',
+    name: 'Javelin',
     tier: 2,
-    sources: [{ name: 'quarterstaff', amount: 2 }],
+    sources: [{ name: 'Quarterstaff', amount: 2 }],
   },
   {
-    name: 'quarterstaff',
+    name: 'Quarterstaff',
     tier: 1,
   },
 ]

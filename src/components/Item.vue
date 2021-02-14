@@ -20,7 +20,7 @@
           v-for="sourceIcon in sourceIcons"
           :src="itemImage(sourceIcon)"
           :alt="sourceIcon"
-          class="w-14 h-14 p-1"
+          class="w-12 h-11 p-1"
         />
       </div>
     </div>
@@ -48,22 +48,15 @@ export default defineComponent({
     const { titleCase } = useTitleCase()
     const { getAmount } = useSelection()
 
-    const iconName = props.item.name.replaceAll('-', '_')
-    const displayName = titleCase(props.item.name.replaceAll('-', ' '))
+    const displayName = titleCase(props.item.name.replaceAll('_', ' '))
     const sourceIcons = itemSourceIcons(props.item) || []
     const amountSelected = computed(() => getAmount(props.item.name))
 
-    const itemImage = (name: string) => {
-      if (name) {
-        const fileName = name.replaceAll('-', '_')
-        return require(`../assets/icons/${fileName}_icon.png`)
-      }
-      return ''
-    }
+    const itemImage = (name: string) =>
+      require(`../assets/icons/${name}_icon.png`)
 
     return {
       props,
-      iconName,
       displayName,
       sourceIcons,
       amountSelected,

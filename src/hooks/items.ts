@@ -10,9 +10,7 @@ export default function useItems() {
   const itemSourceIcons = (item: Item) =>
     item.sources?.flatMap((source: Source) => {
       const sourceItem = items.find(item => item.name === source.name)
-      return sourceItem
-        ? new Array(source.amount).fill(sourceItem.name.replaceAll('-', '_'))
-        : []
+      return sourceItem ? new Array(source.amount).fill(sourceItem.name) : []
     })
 
   const canMake = (name: string): boolean => {
