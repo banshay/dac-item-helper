@@ -53,8 +53,6 @@ export default defineComponent({
     const sourceIcons = itemSourceIcons(props.item) || []
     const amountSelected = computed(() => getAmount(props.item.name))
 
-    console.log(sourceIcons)
-
     const itemImage = (name: string) => {
       if (name) {
         const fileName = name.replaceAll('-', '_')
