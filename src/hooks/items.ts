@@ -13,20 +13,32 @@ export default function useItems() {
       return sourceItem ? new Array(source.amount).fill(sourceItem.name) : []
     })
 
-  const canMake = (name: string): boolean => {
+  const canMake = (name: string, partial = false): boolean => {
     const item = getItem(name)
-    const haveItem = item && isSelected(item.name)
+    if (!item) {
+      return false
+    }
+
+    const haveItem = isSelected(item.name)
+    if (haveItem) {
+      return true
+    }
+
+    if (!partial) {
+      return (
+        item.sources
+          ?.map(source => canMake(source.name, partial))
+          .every(i => i) || false
+      )
+    }
     return (
-      haveItem ||
-      (item &&
-        item.sources &&
-        item.sources.map(source => canMake(source.name)).every(i => i)) ||
+      item.sources?.map(source => canMake(source.name, partial)).find(i => i) ||
       false
     )
   }
 
-  const getAllPotentialMakes = () =>
-    items.filter(item => item.sources && canMake(item.name))
+  const getAllPotentialMakes = (partial: boolean) =>
+    items.filter(item => item.sources && canMake(item.name, partial))
 
   return {
     getItem,

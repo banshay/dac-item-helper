@@ -1,29 +1,31 @@
 <template>
   <div
-    class="bg-nord2 flex text-center mb-3 cursor-pointer select-none border-2 border-transparent text-primary"
+    class="bg-nord2 flex text-center mb-3 cursor-pointer select-none border-2 border-transparent text-primary items-center"
     :class="{
       'border-yellow-500': selected,
       'border-2': selected,
     }"
   >
-    <img :src="itemImage(item.name)" :alt="item.name" />
-    <div class="w-screen flex justify-between">
-      <div class="p-4">
-        <p class="text-2xl font-black">
-          {{ displayName }}
-          <span v-if="amountSelected > 1">x{{ amountSelected }}</span>
-        </p>
-      </div>
-      <div class="flex flex-row justify-around items-center pr-4">
-        <img
-          :key="sourceIcon"
-          v-for="sourceIcon in sourceIcons"
-          :src="itemImage(sourceIcon)"
-          :alt="sourceIcon"
-          class="w-12 h-11 p-1"
-        />
-      </div>
+    <img :src="itemImage(item.name)" :alt="item.name" class="block bg-cover" />
+    <!--    <div class="flex justify-between flex-shrink-0 item">-->
+    <div class="p-4 font-black text-dynamic whitespace-nowrap flex-shrink">
+      {{ displayName }}
+      <span v-if="amountSelected > 1">x{{ amountSelected }}</span>
     </div>
+    <div
+      :key="index"
+      v-for="(sourceIcon, index) in sourceIcons"
+      :class="{
+        'ml-auto': index === 0,
+      }"
+    >
+      <img
+        :src="itemImage(sourceIcon)"
+        :alt="sourceIcon"
+        class="p-1 w-14 h-auto"
+      />
+    </div>
+    <!--    </div>-->
   </div>
 </template>
 

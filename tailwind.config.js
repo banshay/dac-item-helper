@@ -8,6 +8,12 @@ module.exports = {
         secondary: '#E5E9F0',
         highlighted: '#ECEFF4',
       },
+      fontSize: {
+        dynamic: 'clamp(0.25rem, 1.5rem, 1.5rem)',
+      },
+      flex: {
+        '10': '0 0 10em',
+      },
     },
   },
   variants: {

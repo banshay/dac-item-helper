@@ -26,7 +26,7 @@ export default defineComponent({
 
     const allSelected = computed(() => getAllSelected.value.map(i => i.name))
     const potentials = computed(() =>
-      getAllPotentialMakes()
+      getAllPotentialMakes(true)
         .filter(i => !allSelected.value.includes(i.name))
         .sort((a, b) => (a.tier < b.tier ? -1 : 1))
     )
