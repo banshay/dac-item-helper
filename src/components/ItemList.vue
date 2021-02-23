@@ -1,16 +1,20 @@
 <template>
-  <div class="grid grid-cols-5 gap-6 m-5 text-primary">
-    <div v-for="i in 5" :key="i">
-      <p>Tier {{ i }}</p>
-      <Item
-        v-for="item in itemsByTier(i)"
-        :key="item.name"
-        :item="item"
-        :selected="isSelected(item.name)"
-        @click="select(item.name)"
-        @contextmenu="clear(item.name, $event)"
-      />
-    </div>
+  <div class="flex flex-col">
+    <template v-for="i in 5" :key="i">
+      <span class="uppercase tracking-wider text-nord8">Tier {{ i }}</span>
+      <div class="flex flex-row flex-wrap justify-start content-start">
+        <Item
+          v-for="item in itemsByTier(i)"
+          :key="item.name"
+          :item="item"
+          :selected="isSelected(item.name)"
+          @click="select(item.name)"
+          @contextmenu="clear(item.name, $event)"
+          :iconMode="iconMode"
+          :showSource="showSource"
+        />
+      </div>
+    </template>
   </div>
 </template>
 
@@ -23,6 +27,10 @@ import useSelection from '@/hooks/selection'
 
 export default defineComponent({
   name: 'ItemList',
+  props: {
+    iconMode: Boolean,
+    showSource: Boolean,
+  },
   components: {
     Item,
   },

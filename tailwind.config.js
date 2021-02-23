@@ -19,5 +19,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [require('tailwind-nord')],
+  plugins: [require('tailwind-nord'), require('tailwindcss-debug-screens')],
 }

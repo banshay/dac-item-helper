@@ -8558,6 +8558,11 @@ tailwind-nord@^1.2.0:
   resolved "https://registry.yarnpkg.com/tailwind-nord/-/tailwind-nord-1.2.0.tgz#11b64eb1aa57fe62751af378641468457d9b385a"
   integrity sha512-8CsntjXDV0P+5jGhr5l5fbFPwEzxODebitSn2kQi8hW4jGYISh2WiIUkz+PRJgboaMgij9SUdI6uaWFHRNoNmw==
 
+tailwindcss-debug-screens@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/tailwindcss-debug-screens/-/tailwindcss-debug-screens-2.0.0.tgz#81f9ec4d1f8aaf53c448a644e5923322f96df992"
+  integrity sha512-L8hvCJ+3D7IlZ2DE5zEzAJCEvSI92bH8aoAlRfJ5oILzsHT/G5oqvIBBuvt8t/NnhkIxzRl8xDDf405WI709RA==
+
 tapable@^1.0.0, tapable@^1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/tapable/-/tapable-1.1.3.tgz#a1fccc06b58db61fd7a45da2da44f5f3a3e67ba2"

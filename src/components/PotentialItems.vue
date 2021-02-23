@@ -1,5 +1,10 @@
 <template>
-  <div class="flex flex-wrap items-start space-x-4">
+  <span class="text-3xl font-black uppercase tracking-wider m-2">
+    Your potential
+  </span>
+  <div
+    class="align-middle border-dashed border-nord8 rounded-md border-4 m-2 h-full"
+  >
     <Item
       v-for="item in potentials"
       :key="item.name"

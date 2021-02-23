@@ -1,30 +1,32 @@
 <template>
   <div
-    class="bg-nord2 flex text-center mb-3 cursor-pointer select-none border-2 border-transparent text-primary items-center"
+    class="flex text-center items-center cursor-pointer select-none border-2 border-transparent text-primary w-40 h-16 m-1 bg-nord1"
     :class="{
       'border-yellow-500': selected,
       'border-2': selected,
     }"
   >
-    <img :src="itemImage(item.name)" :alt="item.name" class="block bg-cover" />
+    <img :src="itemImage(item.name)" :alt="item.name" class="bg-cover w-20" />
     <!--    <div class="flex justify-between flex-shrink-0 item">-->
     <div class="p-4 font-black text-dynamic whitespace-nowrap flex-shrink">
-      {{ displayName }}
+      <span v-if="!iconMode">{{ displayName }}</span>
       <span v-if="amountSelected > 1">x{{ amountSelected }}</span>
     </div>
-    <div
-      :key="index"
-      v-for="(sourceIcon, index) in sourceIcons"
-      :class="{
-        'ml-auto': index === 0,
-      }"
-    >
-      <img
-        :src="itemImage(sourceIcon)"
-        :alt="sourceIcon"
-        class="p-1 w-14 h-auto"
-      />
-    </div>
+    <template v-if="showSource">
+      <div
+        :key="index"
+        v-for="(sourceIcon, index) in sourceIcons"
+        :class="{
+          'ml-auto': index === 0,
+        }"
+      >
+        <img
+          :src="itemImage(sourceIcon)"
+          :alt="sourceIcon"
+          class="p-1 w-14 h-auto"
+        />
+      </div>
+    </template>
     <!--    </div>-->
   </div>
 </template>
@@ -43,7 +45,9 @@ export default defineComponent({
       type: Object as PropType<Item>,
       required: true,
     },
+    iconMode: Boolean,
     selected: Boolean,
+    showSource: Boolean,
   },
   setup(props) {
     const { itemSourceIcons } = useItems()
