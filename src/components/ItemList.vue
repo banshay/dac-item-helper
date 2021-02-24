@@ -10,8 +10,6 @@
           :selected="isSelected(item.name)"
           @click="select(item.name)"
           @contextmenu="clear(item.name, $event)"
-          :iconMode="iconMode"
-          :showSource="showSource"
         />
       </div>
     </template>
@@ -27,10 +25,6 @@ import useSelection from '@/hooks/selection'
 
 export default defineComponent({
   name: 'ItemList',
-  props: {
-    iconMode: Boolean,
-    showSource: Boolean,
-  },
   components: {
     Item,
   },

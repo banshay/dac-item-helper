@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed } from 'vue'
+import { defineComponent, PropType, computed, inject } from 'vue'
 import { Item } from '@/data/items'
 import useTitleCase from '@/hooks/titleCase'
 import useItems from '@/hooks/items'
@@ -45,11 +45,11 @@ export default defineComponent({
       type: Object as PropType<Item>,
       required: true,
     },
-    iconMode: Boolean,
     selected: Boolean,
-    showSource: Boolean,
   },
   setup(props) {
+    const showSource = inject('showSource')
+    const iconMode = inject('iconMode')
     const { itemSourceIcons } = useItems()
     const { titleCase } = useTitleCase()
     const { getAmount } = useSelection()
@@ -67,6 +67,8 @@ export default defineComponent({
       sourceIcons,
       amountSelected,
       itemImage,
+      showSource,
+      iconMode,
     }
   },
 })

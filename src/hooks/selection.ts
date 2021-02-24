@@ -20,6 +20,7 @@ export default function useSelection() {
     }
   }
 
+  const clearAllSelection = () => (selected.value = [])
   const clearSelection = (name: string) => {
     selected.value = selected.value.filter(i => i.name !== name)
   }
@@ -35,6 +36,7 @@ export default function useSelection() {
     select,
     isSelected,
     clearSelection,
+    clearAllSelection,
     getAmount,
     getAllSelected,
     getIfSelected,
