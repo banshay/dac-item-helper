@@ -10,7 +10,7 @@
       <Craftlist />
     </div>
     <div class="container bg-nord1 w-3/4 m-3 flex flex-col">
-      <PotentialItems />
+      <!--      <PotentialItems />-->
     </div>
   </div>
 </template>
@@ -20,12 +20,10 @@ import { defineComponent } from 'vue'
 import Chest from '@/components/Chest.vue'
 import Inventory from '@/components/Inventory.vue'
 import Craftlist from '@/components/Craftlist.vue'
-import PotentialItems from '@/components/PotentialItems.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
-    PotentialItems,
     Craftlist,
     Inventory,
     Chest,

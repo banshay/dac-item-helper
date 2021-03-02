@@ -8,8 +8,8 @@
           :key="item.name"
           :item="item"
           :selected="isSelected(item.name)"
-          @click="select(item.name)"
-          @contextmenu="clear(item.name, $event)"
+          @click="selectItem(item.name)"
+          @contextmenu.prevent="clearSelection(item.name)"
         />
       </div>
     </template>
@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, inject } from 'vue'
 import Item from '@/components/Item.vue'
 import { items } from '@/data/items'
 import useItems from '@/hooks/items'
@@ -32,13 +32,17 @@ export default defineComponent({
     const { itemsByTier } = useItems()
     const boa = items.find(item => item.name === 'blades-of-attack')
     const { isSelected, select, clearSelection } = useSelection()
+    const multiSelect = inject('multiSelect')
 
-    const clear = (name: string, event: Event) => {
-      event.preventDefault()
-      clearSelection(name)
+    const selectItem = (itemName: string) => {
+      if (multiSelect) {
+        select(itemName)
+      } else if (!isSelected(itemName)) {
+        select(itemName)
+      }
     }
 
-    return { boa, itemsByTier, select, isSelected, clear }
+    return { boa, itemsByTier, isSelected, selectItem, clearSelection }
   },
 })
 </script>

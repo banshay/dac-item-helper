@@ -2,33 +2,57 @@
   <span class="text-3xl font-black uppercase tracking-wider m-2">
     What I have goes here
   </span>
-  <div class="align-middle border-dashed border-nord8 rounded-md border-4 m-2">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      class="w-16 h-16 mx-auto"
-    >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+  <div class="flex items-center">
+    <DropArea @click="modal = true">
+      <Modal
+        v-if="modal"
+        :icon-mode="true"
+        :show-source="false"
+        @modalClosed="updateInventory"
       />
-    </svg>
+    </DropArea>
+    <Item
+      v-for="item in inventory()"
+      :key="item.name"
+      :item="item"
+      class="bg-nord3"
+      :amount-selected="item.amount"
+      @contextmenu.prevent="removeFromInventory(item.name)"
+    />
   </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, provide, reactive, toRefs } from 'vue'
+import Item from '@/components/Item'
+import useInventory from '@/hooks/inventory'
+import Modal from '@/components/Modal'
 import useSelection from '@/hooks/selection'
+import DropArea from '@/components/DropArea'
 
 export default defineComponent({
   name: 'Inventory',
+  components: { DropArea, Item, Modal },
   setup() {
-    const { getAllSelected } = useSelection()
-    return { getAllSelected }
+    provide('iconMode', true)
+    provide('showSource', false)
+    provide('multiSelect', true)
+
+    const { inventory, removeFromInventory, addToInventory } = useInventory()
+    const { getAllSelected, clearAllSelection } = useSelection()
+
+    const inv = reactive({
+      modal: false,
+    })
+
+    const updateInventory = () => {
+      console.log(getAllSelected.value)
+      getAllSelected.value.map(item => addToInventory(item.name))
+      clearAllSelection()
+      inv.modal = false
+    }
+
+    return { inventory, removeFromInventory, updateInventory, ...toRefs(inv) }
   },
 })
 </script>

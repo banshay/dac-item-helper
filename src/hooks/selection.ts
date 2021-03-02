@@ -1,4 +1,4 @@
-import { computed, ref } from 'vue'
+import { computed, readonly, ref } from 'vue'
 
 export interface Selection {
   name: string
@@ -29,7 +29,7 @@ export default function useSelection() {
 
   const getAmount = (name: string) => getSelection(name)?.amount || 0
 
-  const getAllSelected = computed(() => selected.value)
+  const getAllSelected = readonly(selected)
   const getIfSelected = computed(name => getSelection(name))
 
   return {

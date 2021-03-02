@@ -32,11 +32,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed, inject } from 'vue'
+import { defineComponent, inject, PropType } from 'vue'
 import { Item } from '@/data/items'
 import useTitleCase from '@/hooks/titleCase'
 import useItems from '@/hooks/items'
-import useSelection from '@/hooks/selection'
 
 export default defineComponent({
   name: 'Item',
@@ -46,17 +45,16 @@ export default defineComponent({
       required: true,
     },
     selected: Boolean,
+    amountSelected: Number,
   },
   setup(props) {
     const showSource = inject('showSource')
     const iconMode = inject('iconMode')
     const { itemSourceIcons } = useItems()
     const { titleCase } = useTitleCase()
-    const { getAmount } = useSelection()
 
     const displayName = titleCase(props.item.name.replaceAll('_', ' '))
     const sourceIcons = itemSourceIcons(props.item) || []
-    const amountSelected = computed(() => getAmount(props.item.name))
 
     const itemImage = (name: string) =>
       require(`../assets/icons/${name}_icon.png`)
@@ -65,7 +63,6 @@ export default defineComponent({
       props,
       displayName,
       sourceIcons,
-      amountSelected,
       itemImage,
       showSource,
       iconMode,
