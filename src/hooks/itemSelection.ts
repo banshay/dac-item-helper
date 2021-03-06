@@ -1,11 +1,11 @@
 import { computed, readonly, ref } from 'vue'
 
-export interface Selection {
+export interface ItemSelection {
   name: string
   amount: number
 }
 
-const selected = ref<Selection[]>([])
+const selected = ref<ItemSelection[]>([])
 
 export default function useSelection() {
   const getSelection = (name: string) =>

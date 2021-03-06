@@ -8,7 +8,7 @@
       :icon-mode="true"
       :show-source="false"
       :selectionAmount="selectionAmount"
-      @modalClosed="modal = false"
+      @modalClosed="closeModal"
       @selectionHit="fillChest"
     />
   </DropArea>
@@ -29,7 +29,7 @@ import Modal from '@/components/Modal.vue'
 import Item from '@/components/Item.vue'
 import useInventory from '@/hooks/inventory'
 import DropArea from '@/components/DropArea.vue'
-import useSelection from '@/hooks/selection'
+import useSelection from '@/hooks/itemSelection.ts'
 
 export default defineComponent({
   name: 'Chest',
@@ -60,12 +60,18 @@ export default defineComponent({
       clearAllSelection()
     }
 
+    const closeModal = () => {
+      chest.modal = false
+      clearAllSelection()
+    }
+
     return {
       ...toRefs(chest),
       selectionAmount,
       addToInventory,
       chooseItemFromChest,
       fillChest,
+      closeModal,
     }
   },
 })

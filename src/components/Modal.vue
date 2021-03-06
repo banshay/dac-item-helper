@@ -15,7 +15,7 @@
 <script>
 import { defineComponent, provide, watch } from 'vue'
 import ItemList from '@/components/ItemList'
-import useSelection from '@/hooks/selection'
+import useSelection from '@/hooks/itemSelection'
 
 export default defineComponent({
   name: 'Modal',

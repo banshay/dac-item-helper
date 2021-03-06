@@ -14,6 +14,9 @@ module.exports = {
       flex: {
         '10': '0 0 10em',
       },
+      height: {
+        '9/10': '90%',
+      },
     },
   },
   variants: {

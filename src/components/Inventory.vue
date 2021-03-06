@@ -22,13 +22,13 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, provide, reactive, toRefs } from 'vue'
-import Item from '@/components/Item'
 import useInventory from '@/hooks/inventory'
-import Modal from '@/components/Modal'
-import useSelection from '@/hooks/selection'
-import DropArea from '@/components/DropArea'
+import useSelection from '@/hooks/itemSelection.ts'
+import DropArea from '@/components/DropArea.vue'
+import Modal from '@/components/Modal.vue'
+import Item from '@/components/Item.vue'
 
 export default defineComponent({
   name: 'Inventory',
@@ -46,7 +46,6 @@ export default defineComponent({
     })
 
     const updateInventory = () => {
-      console.log(getAllSelected.value)
       getAllSelected.value.map(item => addToInventory(item.name))
       clearAllSelection()
       inv.modal = false
