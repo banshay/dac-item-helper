@@ -17,16 +17,16 @@ export default function useInventory() {
   const getItem = (name: string) =>
     inventoryState.inventory.find(item => item.name === name)
 
-  const addToInventory = (selected: string) => {
-    const owned = getItem(selected)
+  const addToInventory = (selected: ItemSelection) => {
+    const owned = getItem(selected.name)
     if (owned) {
-      owned.amount++
+      owned.amount += selected.amount
     } else {
       inventoryState.inventory = [
         ...inventoryState.inventory,
         {
-          name: selected,
-          amount: 1,
+          name: selected.name,
+          amount: selected.amount,
         },
       ]
     }

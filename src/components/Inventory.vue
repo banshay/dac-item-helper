@@ -46,7 +46,7 @@ export default defineComponent({
     })
 
     const updateInventory = () => {
-      getAllSelected.value.map(item => addToInventory(item.name))
+      getAllSelected.value.map(item => addToInventory(item))
       clearAllSelection()
       inv.modal = false
     }

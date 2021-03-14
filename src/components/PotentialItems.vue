@@ -29,18 +29,13 @@ export default defineComponent({
   setup() {
     provide('showSource', true)
     provide('iconMode', true)
+    provide('multiSelect', false)
 
     const { chest, inventory } = useInventory()
-    const { items, canMake } = useItems()
+    const { items, canMakePartial, itemNames } = useItems()
 
-    const toNames = (selectionItems: DeepReadonly<ItemSelection[]>) =>
-      selectionItems.filter(item => item).map(item => item.name)
-
-    const findPotentials = (possession: string[], partial: boolean) => {
-      return items.filter(
-        item => item.sources && canMake(item.name, possession, partial)
-      )
-    }
+    const findPotentials = (possession: string[]) =>
+      items.filter(item => item.sources && canMakePartial(item, possession))
 
     const potentials = computed(() => {
       const inv = inventory()
@@ -48,12 +43,14 @@ export default defineComponent({
       if (!inv.length && !chestItems.length) {
         return []
       }
-      const base = findPotentials(toNames(inv), true)
-      const set1 = findPotentials(toNames([...inv, chestItems[0]]), true)
-      const set2 = findPotentials(toNames([...inv, chestItems[1]]), true)
-      const set3 = findPotentials(toNames([...inv, chestItems[2]]), true)
+      const base = findPotentials(itemNames(inv))
+      const set1 = findPotentials(itemNames([...inv, chestItems[0]]))
+      const set2 = findPotentials(itemNames([...inv, chestItems[1]]))
+      const set3 = findPotentials(itemNames([...inv, chestItems[2]]))
 
-      return new Set([...base, ...set1, ...set2, ...set3])
+      return [...new Set([...base, ...set1, ...set2, ...set3])].sort((a, b) =>
+        a.tier > b.tier ? 1 : 0
+      )
     })
 
     return { potentials }

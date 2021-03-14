@@ -18,7 +18,7 @@
       :key="item.name"
       :item="item"
       class="bg-nord3"
-      @click="chooseItemFromChest(item.name)"
+      @click="chooseItemFromChest(item)"
     />
   </div>
 </template>
@@ -29,7 +29,7 @@ import Modal from '@/components/Modal.vue'
 import Item from '@/components/Item.vue'
 import useInventory from '@/hooks/inventory'
 import DropArea from '@/components/DropArea.vue'
-import useSelection from '@/hooks/itemSelection.ts'
+import useSelection, { ItemSelection } from '@/hooks/itemSelection.ts'
 
 export default defineComponent({
   name: 'Chest',
@@ -49,9 +49,9 @@ export default defineComponent({
       modal: false,
     })
 
-    const chooseItemFromChest = (itemName: string) => {
+    const chooseItemFromChest = (item: ItemSelection) => {
       chest.items = []
-      addToInventory(itemName)
+      addToInventory(item)
     }
 
     const fillChest = () => {

@@ -1,16 +1,26 @@
 <template>
   <div
-    class="flex text-center items-center cursor-pointer select-none border-2 border-transparent text-primary w-40 h-16 m-1 bg-nord1"
+    id="item-container"
+    class="flex text-center items-center cursor-pointer select-none border-2 border-transparent text-primary h-16 m-1 bg-nord1"
     :class="{
       'border-yellow-500': selected,
       'border-2': selected,
     }"
   >
-    <img :src="itemImage(item.name)" :alt="item.name" class="bg-cover w-20" />
+    <img
+      id="item-image"
+      :src="itemImage(item.name)"
+      :alt="item.name"
+      class="bg-cover w-20"
+    />
     <!--    <div class="flex justify-between flex-shrink-0 item">-->
-    <div class="p-4 font-black text-dynamic whitespace-nowrap flex-shrink">
+    <div
+      id="item-name-amount"
+      class="font-black text-dynamic whitespace-nowrap"
+      v-if="multiSelect"
+    >
       <span v-if="!iconMode">{{ displayName }}</span>
-      <span v-if="amountSelected > 1">x{{ amountSelected }}</span>
+      <span v-if="amountSelected > 1" class="p-4">x{{ amountSelected }}</span>
     </div>
     <template v-if="showSource">
       <div
@@ -18,13 +28,11 @@
         v-for="(sourceIcon, index) in sourceIcons"
         :class="{
           'ml-auto': index === 0,
+          'pl-4': index === 0,
         }"
+        class="flex-shrink-0"
       >
-        <img
-          :src="itemImage(sourceIcon)"
-          :alt="sourceIcon"
-          class="p-1 w-14 h-auto"
-        />
+        <img :src="itemImage(sourceIcon)" :alt="sourceIcon" class="p-1 w-14" />
       </div>
     </template>
     <!--    </div>-->
@@ -50,6 +58,7 @@ export default defineComponent({
   setup(props) {
     const showSource = inject('showSource')
     const iconMode = inject('iconMode')
+    const multiSelect = inject('multiSelect')
     const { itemSourceIcons } = useItems()
     const { titleCase } = useTitleCase()
 
@@ -66,6 +75,7 @@ export default defineComponent({
       itemImage,
       showSource,
       iconMode,
+      multiSelect,
     }
   },
 })
