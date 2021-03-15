@@ -2,7 +2,7 @@
   <span class="text-3xl font-black uppercase tracking-wider m-2">
     Chest
   </span>
-  <DropArea v-if="items.length === 0" @click="modal = true">
+  <DropArea v-if="chest().length === 0" @click="modal = true">
     <Modal
       v-if="modal"
       :icon-mode="true"
@@ -14,7 +14,7 @@
   </DropArea>
   <div v-else class="flex">
     <Item
-      v-for="item in items"
+      v-for="item in chest()"
       :key="item.name"
       :item="item"
       class="bg-nord3"
@@ -40,38 +40,38 @@ export default defineComponent({
     provide('iconMode', true)
     provide('multiSelect', false)
 
-    const { addToInventory } = useInventory()
+    const { addToInventory, addAllToChest, clearChest, chest } = useInventory()
     const { getAllSelected, clearAllSelection } = useSelection()
 
     const selectionAmount = 3
-    const chest = reactive({
-      items: [],
+    const state = reactive({
       modal: false,
     })
 
     const chooseItemFromChest = (item: ItemSelection) => {
-      chest.items = []
+      clearChest()
       addToInventory(item)
     }
 
     const fillChest = () => {
-      Object.assign(chest.items, getAllSelected.value)
-      chest.modal = false
+      addAllToChest(getAllSelected.value)
+      state.modal = false
       clearAllSelection()
     }
 
     const closeModal = () => {
-      chest.modal = false
+      state.modal = false
       clearAllSelection()
     }
 
     return {
-      ...toRefs(chest),
+      ...toRefs(state),
       selectionAmount,
       addToInventory,
       chooseItemFromChest,
       fillChest,
       closeModal,
+      chest,
     }
   },
 })

@@ -1,4 +1,4 @@
-import { reactive, readonly } from 'vue'
+import { DeepReadonly, reactive, readonly } from 'vue'
 import { ItemSelection } from '@/hooks/itemSelection.ts'
 
 const inventoryState = reactive<{
@@ -32,8 +32,16 @@ export default function useInventory() {
     }
   }
 
-  const addAllToChest = (items: ItemSelection[]) => {
-    inventoryState.chest = items
+  const addAllToChest = (items: DeepReadonly<ItemSelection[]>) => {
+    items.forEach(item => {
+      inventoryState.chest = [
+        ...inventoryState.chest,
+        {
+          name: item.name,
+          amount: item.amount,
+        },
+      ]
+    })
   }
 
   const removeFromInventory = (toRemove: string) => {

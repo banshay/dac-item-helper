@@ -45,6 +45,8 @@ export default defineComponent({
         ? findCraftable([...inv, chestItems[2]])
         : []
 
+      console.log(set1, set2, set3)
+
       return [...new Set([...base, ...set1, ...set2, ...set3])].sort((a, b) =>
         a.tier > b.tier ? 1 : 0
       )
