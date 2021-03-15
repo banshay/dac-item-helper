@@ -28,8 +28,8 @@ import { defineComponent, provide, reactive, toRefs } from 'vue'
 import Modal from '@/components/Modal.vue'
 import Item from '@/components/Item.vue'
 import useInventory from '@/hooks/inventory'
-import useSelection, { ItemSelection } from '@/hooks/itemSelection.ts'
 import DropArea from '@/components/DropArea.vue'
+import useSelection, { ItemSelection } from '@/hooks/itemSelection.ts'
 
 export default defineComponent({
   name: 'Chest',
