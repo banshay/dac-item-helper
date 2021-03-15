@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { computed, DeepReadonly, defineComponent, inject, provide } from 'vue'
+import { computed, DeepReadonly, defineComponent, provide } from 'vue'
 import useInventory from '@/hooks/inventory'
 import useItems from '@/hooks/items'
 import Item from '@/components/Item.vue'

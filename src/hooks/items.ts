@@ -42,28 +42,32 @@ export default function useItems() {
     )
   }
 
+  const inPossession = (
+    item: DeepReadonly<Item>,
+    amount = 1,
+    possession: DeepReadonly<ItemSelection[]>
+  ) => possession.find(i => i.name === item.name && i.amount >= amount)
+
   const canMake = (
     item: DeepReadonly<Item>,
     possession: DeepReadonly<ItemSelection[]>,
     amount = 1
   ): boolean => {
-    const getPossessionItem = (name: string) => {
-      return possession.find(item => item.name === name)
-    }
-
     if (!item) {
       return false
     }
 
-    const haveItem = getPossessionItem(item.name)
-    if (haveItem && haveItem.amount >= amount) {
-      return true
+    const haveItem = inPossession(item, amount, possession)
+    if (haveItem) {
+      return false
     }
 
     return (
       item.sources
-        ?.map(source =>
-          canMake(getItem(source.name), possession, source.amount)
+        ?.map(
+          source =>
+            inPossession(getItem(source.name), source.amount, possession) ||
+            canMake(getItem(source.name), possession, source.amount)
         )
         .every(i => i) || false
     )
