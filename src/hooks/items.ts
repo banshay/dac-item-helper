@@ -1,5 +1,5 @@
 import { Item, items as itemsRaw, Source } from '@/data/items'
-import useSelection, { ItemSelection } from '@/hooks/itemSelection.ts'
+import { ItemSelection } from '@/hooks/itemSelection.ts'
 import { DeepReadonly, readonly } from 'vue'
 
 export default function useItems() {
