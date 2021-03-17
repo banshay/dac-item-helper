@@ -76,6 +76,12 @@ export default function useItems() {
   const itemNames = (selectionItems: DeepReadonly<ItemSelection[]>) =>
     selectionItems.filter(item => item).map(item => item.name)
 
+  const hasItem = (item: ItemSelection, search: Item, amount = 1) => {
+    if (item.name === search.name && item.amount >= amount) {
+      return true
+    }
+  }
+
   return {
     getItem,
     itemsByTier,
