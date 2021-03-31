@@ -5,7 +5,7 @@
   <div
     class="align-middle border-dashed border-nord8 rounded-md border-4 m-2 h-full"
   >
-    <ItemComponent v-for="item in craftable" :key="item.name" :item="item" />
+    <Craftable v-for="item in craftable" :key="item.name" :item="item" />
   </div>
 </template>
 
@@ -13,13 +13,12 @@
 import { computed, DeepReadonly, defineComponent, provide } from 'vue'
 import useInventory from '@/hooks/inventory'
 import useItems from '@/hooks/items'
-import ItemComponent from '@/components/Item.vue'
 import { ItemSelection } from '@/hooks/itemSelection'
-import { Item } from '@/data/items'
+import Craftable from '@/components/Craftable.vue'
 
 export default defineComponent({
   name: 'Craftlist',
-  components: { ItemComponent },
+  components: { Craftable },
   setup() {
     provide('showSource', true)
     provide('iconMode', true)
@@ -29,7 +28,12 @@ export default defineComponent({
     const { canMake, items } = useItems()
 
     const findCraftable = (possession: DeepReadonly<ItemSelection[]>) =>
-      items.filter(item => item.sources && canMake(item, possession))
+      items.filter(item => {
+        console.group(item.name)
+        const ret = item.sources && canMake(item, possession)
+        console.groupEnd()
+        return ret
+      })
 
     const craftable = computed(() => {
       const inv = inventory()
@@ -50,11 +54,6 @@ export default defineComponent({
         a.tier > b.tier ? 1 : 0
       )
     })
-
-    const craftRequirements = (item: DeepReadonly<Item>) => {
-      const chestItems = chest()
-      const possession = [...inventory(), ...chestItems]
-    }
 
     return {
       craftable,
