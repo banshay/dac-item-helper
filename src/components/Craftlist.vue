@@ -28,12 +28,7 @@ export default defineComponent({
     const { canMake, items } = useItems()
 
     const findCraftable = (possession: DeepReadonly<ItemSelection[]>) =>
-      items.filter(item => {
-        console.group(item.name)
-        const ret = item.sources && canMake(item, possession)
-        console.groupEnd()
-        return ret
-      })
+      items.filter(item => item.sources && canMake(item, possession))
 
     const craftable = computed(() => {
       const inv = inventory()

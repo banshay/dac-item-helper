@@ -6,7 +6,7 @@ export default function useItems() {
   const itemsByTier = (tier: number) =>
     itemsRaw.filter(item => item.tier === tier)
 
-  const getItem = (name: string) => {
+  const getItem = (name: string): Item => {
     const item = itemsRaw.find(i => i.name === name)
     if (!item) {
       throw new Error(`item with name ${name} not found`)
@@ -42,75 +42,71 @@ export default function useItems() {
     )
   }
 
-  const inPossession = (
+  const findInPossession = (
     item: DeepReadonly<Item>,
     possession: DeepReadonly<ItemSelection[]>,
     amount = 1
-  ) => possession.find(i => i.name === item.name && i.amount >= amount)
+  ): ItemSelection | undefined =>
+    possession.find(i => i.name === item.name && i.amount >= amount)
 
   const containsItem = (
     item: DeepReadonly<ItemSelection>,
     search: DeepReadonly<Item>,
     amount = 1
   ): {
-    hasItem: boolean
-    destroy: boolean
+    contains: boolean
+    amount: number
   } => {
-    if (item.name === search.name && item.amount >= amount) {
+    console.log('hasItem item', item, 'search', search)
+    if (item.name === search.name) {
       return {
-        hasItem: true,
-        destroy: false,
+        contains: true,
+        amount: item.amount,
       }
     }
     const itemWithSource = getItem(item.name)
-    const hasItemRet = !!itemWithSource.sources?.find(
-      i => containsItem(i, search, amount).hasItem
+    return (
+      itemWithSource.sources
+        ?.map(i => containsItem(i, search, amount))
+        .filter(i => i.contains)
+        .reduce(
+          (acc, current) => {
+            acc.contains = current.contains
+            acc.amount += current.amount
+            return acc
+          },
+          { contains: false, amount: 0 }
+        ) || {
+        contains: false,
+        amount: 0,
+      }
     )
-    return {
-      hasItem: hasItemRet,
-      destroy: true,
-    }
   }
 
-  const getItemAndRemove = (
-    item: DeepReadonly<Item>,
-    possession: DeepReadonly<ItemSelection[]>,
-    amount = 1
-  ): {
-    item: DeepReadonly<ItemSelection> | undefined
-    toDestroy: DeepReadonly<ItemSelection> | undefined
-    remaining: DeepReadonly<ItemSelection[]>
-  } => {
-    const foundItem = possession
-      .map(i => {
-        const { hasItem, destroy } =
-          i.name === item.name && i.amount >= amount
-            ? { hasItem: true, destroy: false }
-            : containsItem(i, item, amount)
-        return {
-          item: i,
-          hasItem,
-          destroy,
-        }
-      })
-      .find(mapd => mapd.hasItem)
-
-    if (foundItem) {
-      const remaining = possession
-        .map(i => {
-          return {
-            ...i,
-            amount: i.amount - 1,
-          }
-        })
-        .filter(i => i.amount === 0)
-      return {
-        item: foundItem?.item,
-        toDestroy: foundItem?.destroy ? foundItem.item : undefined,
-        remaining,
+  const groupBy = (
+    array: DeepReadonly<ItemSelection[]>,
+    keyGetter: Function
+  ) => {
+    const map = new Map()
+    array.forEach(item => {
+      const key = keyGetter(item)
+      const existing = map.get(key)
+      if (!existing) {
+        map.set(key, { ...item })
+      } else {
+        existing.amount += item.amount
       }
+    })
+    return map
+  }
+
+  const unravel = (source: ItemSelection): ItemSelection[] => {
+    const item = readonly(getItem(source.name))
+    if (item && item.sources) {
+      const newArr = new Array(source.amount).fill(item)
+      return newArr.flatMap(item => item.sources.flatMap(unravel))
     }
-    return { item: undefined, toDestroy: undefined, remaining: possession }
+    return [source]
   }
 
   const canMake = (
@@ -118,20 +114,35 @@ export default function useItems() {
     possession: DeepReadonly<ItemSelection[]>,
     amount = 1
   ): boolean => {
-    if (!itemToMake) {
-      return false
-    }
-
-    const { item, remaining } = getItemAndRemove(itemToMake, possession, amount)
-    if (item) {
-      return true
-    }
-
-    return (
-      itemToMake.sources?.every(source =>
-        canMake(getItem(source.name), remaining, source.amount * amount)
-      ) || false
+    const itemToMakeIngredients = itemToMake.sources?.flatMap(unravel)
+    const filteredPossession = possession.filter(
+      i => i.name !== itemToMake.name
     )
+    if (itemToMakeIngredients) {
+      const inventoryMap = groupBy(
+        filteredPossession.flatMap(i => {
+          const item = getItem(i.name)
+          if (item && item.sources) {
+            return item.sources.flatMap(unravel)
+          } else {
+            return i
+          }
+        }),
+        (item: ItemSelection) => item.name
+      )
+      const ingredientMap = groupBy(
+        itemToMakeIngredients,
+        (item: ItemSelection) => item.name
+      )
+      ingredientMap.forEach((value, key, map) => {
+        const itemInInventory = inventoryMap.get(key)
+        if (itemInInventory && itemInInventory.amount >= value.amount) {
+          map.delete(key)
+        }
+      })
+      return ![...ingredientMap.keys()].length
+    }
+    return !!findInPossession(itemToMake, filteredPossession, amount)
   }
 
   const itemNames = (selectionItems: DeepReadonly<ItemSelection[]>) =>
@@ -145,7 +156,8 @@ export default function useItems() {
     items,
     itemNames,
     canMake,
-    inPossession,
-    getItemAndRemove,
+    findInPossession,
+    containsItem,
+    groupBy,
   }
 }
