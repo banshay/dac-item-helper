@@ -1,4 +1,5 @@
-import { computed, readonly, ref } from 'vue'
+import { computed, DeepReadonly, readonly, ref } from 'vue'
+import { Item } from '@/data/items'
 
 export interface ItemSelection {
   name: string

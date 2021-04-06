@@ -1,5 +1,7 @@
 import { DeepReadonly, reactive, readonly } from 'vue'
 import { ItemSelection } from '@/hooks/itemSelection.ts'
+import { Item } from '@/data/items'
+import useItems from '@/hooks/items'
 
 const inventoryState = reactive<{
   inventory: ItemSelection[]
@@ -10,15 +12,21 @@ const inventoryState = reactive<{
 })
 
 export default function useInventory() {
+  const { getItem } = useItems()
   const chest = () => readonly(inventoryState.chest)
-  const inventory = () => readonly(inventoryState.inventory)
+  const inventory = (): DeepReadonly<ItemSelection[]> =>
+    readonly(
+      inventoryState.inventory.sort(
+        (a, b) => getItem(a.name).tier - getItem(b.name).tier
+      )
+    )
   const clearChest = () => (inventoryState.chest = [])
   const clearInventory = () => (inventoryState.inventory = [])
-  const getItem = (name: string) =>
+  const getOwnedItem = (name: string) =>
     inventoryState.inventory.find(item => item.name === name)
 
   const addToInventory = (selected: ItemSelection) => {
-    const owned = getItem(selected.name)
+    const owned = getOwnedItem(selected.name)
     if (owned) {
       owned.amount += selected.amount
     } else {
@@ -44,15 +52,15 @@ export default function useInventory() {
     })
   }
 
-  const removeFromInventory = (toRemove: string) => {
-    const owned = getItem(toRemove)
-    if (owned && owned.amount > 1) {
-      owned.amount--
-    } else {
-      inventoryState.inventory = inventoryState.inventory.filter(
-        item => item.name !== toRemove
-      )
+  const removeFromInventory = (toRemove: string, amount = 1) => {
+    const owned = getOwnedItem(toRemove)
+    if (!owned) {
+      throw new Error(`don't own an item called ${toRemove}`)
     }
+    owned.amount -= amount
+    inventoryState.inventory = inventoryState.inventory.filter(
+      i => i.amount > 0
+    )
   }
 
   return {

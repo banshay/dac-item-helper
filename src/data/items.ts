@@ -1,12 +1,9 @@
+import { ItemSelection } from '@/hooks/itemSelection'
+
 export interface Item {
   name: string
   tier: number
-  sources?: Source[]
-}
-
-export interface Source {
-  name: string
-  amount: number
+  sources?: ItemSelection[]
 }
 
 export const items: Item[] = [

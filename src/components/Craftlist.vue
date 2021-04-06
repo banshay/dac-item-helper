@@ -5,7 +5,7 @@
   <div
     class="align-middle border-dashed border-nord8 rounded-md border-4 m-2 h-full"
   >
-    <Item v-for="item in craftable" :key="item.name" :item="item" />
+    <Craftable v-for="item in craftable" :key="item.name" :item="item" />
   </div>
 </template>
 
@@ -13,12 +13,12 @@
 import { computed, DeepReadonly, defineComponent, provide } from 'vue'
 import useInventory from '@/hooks/inventory'
 import useItems from '@/hooks/items'
-import Item from '@/components/Item.vue'
 import { ItemSelection } from '@/hooks/itemSelection'
+import Craftable from '@/components/Craftable.vue'
 
 export default defineComponent({
   name: 'Craftlist',
-  components: { Item },
+  components: { Craftable },
   setup() {
     provide('showSource', true)
     provide('iconMode', true)
@@ -44,8 +44,6 @@ export default defineComponent({
       const set3 = chestItems.length
         ? findCraftable([...inv, chestItems[2]])
         : []
-
-      console.log(set1, set2, set3)
 
       return [...new Set([...base, ...set1, ...set2, ...set3])].sort((a, b) =>
         a.tier > b.tier ? 1 : 0
