@@ -1,9 +1,9 @@
 <template>
   <div class="flex flex-col">
-    <template v-for="i in 5" :key="i">
+    <template v-for="i in maxTier" :key="i">
       <span class="uppercase tracking-wider text-nord8">Tier {{ i }}</span>
       <div class="flex flex-row flex-wrap justify-start content-start">
-        <Item
+        <ItemComponent
           v-for="item in itemsByTier(i)"
           :key="item.name"
           :item="item"
@@ -18,22 +18,37 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject } from 'vue'
-import Item from '@/components/Item.vue'
-import { items } from '@/data/items'
+import { computed, defineComponent, inject } from 'vue'
+import ItemComponent from '@/components/Item.vue'
 import useItems from '@/hooks/items'
 import useSelection from '@/hooks/itemSelection.ts'
 
 export default defineComponent({
   name: 'ItemList',
   components: {
-    Item,
+    ItemComponent,
   },
   setup() {
-    const { itemsByTier } = useItems()
-    const boa = items.find(item => item.name === 'blades-of-attack')
+    const { itemsByTag, getAllItems } = useItems()
     const { isSelected, select, clearSelection, getAmount } = useSelection()
     const multiSelect = inject('multiSelect')
+    const tags = inject('tags', [])
+
+    const items = computed(() =>
+      tags.length ? itemsByTag(tags) : getAllItems()
+    )
+
+    const maxTier = computed(() =>
+      items.value.reduce((acc, current) => {
+        if (current.tier > acc) {
+          return current.tier
+        }
+        return acc
+      }, 0)
+    )
+
+    const itemsByTier = (tier: number) =>
+      items.value.filter(item => item.tier === tier)
 
     const selectItem = (itemName: string) => {
       if (multiSelect) {
@@ -44,12 +59,13 @@ export default defineComponent({
     }
 
     return {
-      boa,
+      items,
       itemsByTier,
       isSelected,
       selectItem,
       clearSelection,
       getAmount,
+      maxTier,
     }
   },
 })

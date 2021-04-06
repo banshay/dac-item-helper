@@ -6,6 +6,14 @@ export default function useItems() {
   const itemsByTier = (tier: number) =>
     itemsRaw.filter(item => item.tier === tier)
 
+  const itemsByTag = (tag: string[]) =>
+    itemsRaw.filter(item => {
+      const tags = item.tags || []
+      return !!tags.find(tg => tag.includes(tg))
+    })
+
+  const getAllItems = () => readonly(itemsRaw)
+
   const getItem = (name: string): Item => {
     const item = itemsRaw.find(i => i.name === name)
     if (!item) {
@@ -149,8 +157,10 @@ export default function useItems() {
     selectionItems.filter(item => item).map(item => item.name)
 
   return {
+    getAllItems,
     getItem,
     itemsByTier,
+    itemsByTag,
     itemSourceIcons,
     canMakePartial,
     items,

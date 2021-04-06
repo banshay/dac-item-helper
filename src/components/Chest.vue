@@ -39,6 +39,7 @@ export default defineComponent({
     provide('showSource', false)
     provide('iconMode', true)
     provide('multiSelect', false)
+    provide('tags', ['chestDrop'])
 
     const { addToInventory, addAllToChest, clearChest, chest } = useInventory()
     const { getAllSelected, clearAllSelection } = useSelection()
