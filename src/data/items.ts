@@ -83,7 +83,7 @@ export const items: Item[] = [
   },
   {
     name: 'Sacred_Relic',
-    tier: 3,
+    tier: 4,
     sources: [{ name: 'Mithril_Hammer', amount: 3 }],
   },
   {
@@ -412,14 +412,6 @@ export const items: Item[] = [
     ],
   },
   {
-    name: 'Hurricane_Pike',
-    tier: 4,
-    sources: [
-      { name: 'Force_Staff', amount: 1 },
-      { name: 'Telescope', amount: 1 },
-    ],
-  },
-  {
     name: 'Guardian_Greaves',
     tier: 4,
     sources: [
@@ -511,10 +503,9 @@ export const items: Item[] = [
   },
   {
     name: 'Vesture_of_t',
-    tier: 5,
+    tier: 4,
     sources: [
       { name: 'Sacred_Relic', amount: 1 },
-      { name: 'Crown', amount: 1 },
       { name: 'Robe_of_the_Magi', amount: 1 },
     ],
   },
