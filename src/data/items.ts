@@ -4,6 +4,7 @@ export interface Item {
   name: string
   tier: number
   sources?: ItemSelection[]
+  tags?: string[]
 }
 
 export const items: Item[] = [
@@ -14,14 +15,17 @@ export const items: Item[] = [
   {
     name: 'Blade_of_Alacrity',
     tier: 1,
+    tags: ['chestDrop'],
   },
   {
     name: 'Chainmail',
     tier: 1,
+    tags: ['chestDrop'],
   },
   {
     name: 'Stout_Shield',
     tier: 1,
+    tags: ['chestDrop'],
   },
   {
     name: 'Ring_of_Regen',
@@ -31,6 +35,7 @@ export const items: Item[] = [
     name: 'Ring_of_Health',
     tier: 1,
     sources: [{ name: 'Ring_of_Regen', amount: 2 }],
+    tags: ['chestDrop'],
   },
   {
     name: 'Robe_of_the_Magi',
@@ -39,14 +44,17 @@ export const items: Item[] = [
   {
     name: 'Cloak',
     tier: 1,
+    tags: ['chestDrop'],
   },
   {
     name: 'Morbid_Mask',
     tier: 1,
+    tags: ['chestDrop'],
   },
   {
     name: 'Blight_Stone',
     tier: 1,
+    tags: ['chestDrop'],
   },
   {
     name: 'Void_Stone',
@@ -55,19 +63,23 @@ export const items: Item[] = [
   {
     name: 'Vitality_Booster',
     tier: 1,
+    tags: ['chestDrop'],
   },
   {
     name: 'Energy_Booster',
     tier: 1,
+    tags: ['chestDrop'],
   },
   {
     name: 'Boots_of_Speed',
     tier: 1,
+    tags: ['chestDrop'],
   },
   {
     name: 'Mithril_Hammer',
     tier: 2,
     sources: [{ name: 'Blades_of_Attack', amount: 2 }],
+    tags: ['chestDrop'],
   },
   {
     name: 'Sacred_Relic',
@@ -86,11 +98,13 @@ export const items: Item[] = [
     name: 'Demon_Edge',
     tier: 3,
     sources: [{ name: 'Javelin', amount: 2 }],
+    tags: ['chestDrop'],
   },
   {
     name: 'Javelin',
     tier: 2,
     sources: [{ name: 'Quarterstaff', amount: 2 }],
+    tags: ['chestDrop'],
   },
   {
     name: 'Quarterstaff',
@@ -99,22 +113,28 @@ export const items: Item[] = [
   {
     name: 'Crown',
     tier: 2,
+    sources: [{ name: 'Void_Stone', amount: 2 }],
+    tags: ['chestDrop'],
   },
   {
     name: 'Talisman_of_Evasion',
     tier: 2,
+    tags: ['chestDrop'],
   },
   {
     name: 'Broadsword',
     tier: 2,
+    tags: ['chestDrop'],
   },
   {
     name: 'Ogre_Axe',
     tier: 2,
+    tags: ['chestDrop'],
   },
   {
     name: 'Blink_Dagger',
     tier: 2,
+    tags: ['chestDrop'],
   },
   {
     name: 'Poor_Mans_Shield',
@@ -139,7 +159,7 @@ export const items: Item[] = [
   },
   {
     name: 'Staff_of_Wizardry',
-    tier: 2,
+    tier: 1,
     sources: [{ name: 'Robe_of_the_Magi', amount: 2 }],
   },
   {
@@ -194,21 +214,25 @@ export const items: Item[] = [
     name: 'Platemail',
     tier: 3,
     sources: [{ name: 'Chainmail', amount: 2 }],
+    tags: ['chestDrop'],
   },
   {
     name: 'Hyperstone',
     tier: 3,
     sources: [{ name: 'Broadsword', amount: 2 }],
+    tags: ['chestDrop'],
   },
   {
     name: 'Eaglesong',
     tier: 3,
     sources: [{ name: 'Blade_of_Alacrity', amount: 2 }],
+    tags: ['chestDrop'],
   },
   {
     name: 'Reaver',
     tier: 3,
     sources: [{ name: 'Ogre_Axe', amount: 3 }],
+    tags: ['chestDrop'],
   },
   {
     name: 'Ultimate_Orb',
@@ -217,6 +241,7 @@ export const items: Item[] = [
       { name: 'Vitality_Booster', amount: 1 },
       { name: 'Crown', amount: 1 },
     ],
+    tags: ['chestDrop'],
   },
   {
     name: 'Mystic_Staff',
@@ -225,6 +250,7 @@ export const items: Item[] = [
       { name: 'Staff_of_Wizardry', amount: 1 },
       { name: 'Void_Stone', amount: 1 },
     ],
+    tags: ['chestDrop'],
   },
   {
     name: 'Blade_Mail',
