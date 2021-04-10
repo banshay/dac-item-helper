@@ -161,6 +161,7 @@ export const items: Item[] = [
     name: 'Staff_of_Wizardry',
     tier: 1,
     sources: [{ name: 'Robe_of_the_Magi', amount: 2 }],
+    tags: ['chestDrop'],
   },
   {
     name: 'Force_Staff',
